@@ -23,7 +23,7 @@ Rails
 
 ``` ruby
 #Gemfile
-gem "instantspin", :git => "git://github.com/skorfmann/spin.git"
+gem "instantspin", :require => "spin", :git => "git://github.com/skorfmann/spin.git"
 ```
 Add config for rails-dev-boost but only if run via spin
 
