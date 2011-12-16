@@ -5,14 +5,17 @@ Combined ([spin](https://github.com/thedarkone/rails-dev-boost)) with ([rails-de
 
 This setup works great for me with unit and functional tests (Test::Unit / MinitTest).
 
-Compare the execution times (rails 3.1 and ruby 1.9.3):
+Compare the execution times of a simple functional test (rails 3.1 and ruby 1.9.3):
 
 ``` bash
-# with (instant)spin
-Total execution time was 2.755599 seconds
+#Test Time:
+1.270169 seconds
 
-# plain (ruby -Itest ...)
-Total execution time was 20.771 seconds
+# Total execution time with (instant)spin
+2.755599 seconds
+
+# Total execution time (ruby -Itest ...)
+20.771 seconds
 ```
 
 Installation
