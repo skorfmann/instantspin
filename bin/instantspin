@@ -13,6 +13,7 @@ require 'digest/md5'
 # environment.
 require 'benchmark'
 require 'optparse'
+require 'rails_development_boost'
 
 SEPARATOR = '|'
 
