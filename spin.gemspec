@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
 By preloading your Rails environment for testing you don't load the same code over and over and over... Spin works best for an autotest(ish) workflow.}
 
-  s.executables     = ['spin']
+  s.executables     = ['instantspin']
 
   s.add_dependency  "rails-dev-boost", ">= 0.1.1"
   s.add_dependency  "growl", ">= 1.0.3"

@@ -50,7 +50,7 @@ end
 def serve(force_rspec, force_testunit, time, push_results)
   file = socket_file
 
-  $fastspin = true
+  $instantspin = true
 
   # We delete the tmp file for the Unix socket if it already exists. The file
   # is scoped to the `pwd`, so if it already exists then it must be from an
