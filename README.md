@@ -11,8 +11,11 @@ Compare the execution times of a simple functional test (rails 3.1 and ruby 1.9.
 #Test Time:
 1.270169 seconds
 
-# Total execution time with (instant)spin
+# Total execution time with instantspin
 2.755599 seconds
+
+# Total execution time with plain spin
+14.565113 seconds
 
 # Total execution time (ruby -Itest ...)
 20.771 seconds
