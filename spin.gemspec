@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "instantspin"
-  s.version     = '0.4.2'
+  s.version     = '0.4.3'
   s.authors     = ["Jesse Storimer", "Sebastian Korfmann"]
   s.email       = ["jstorimer@gmail.com", "korfmann.sebastian@gmail.com"]
   s.homepage    = "http://jstorimer.github.com/spin"
