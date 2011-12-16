@@ -34,7 +34,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "instantspin", :git => "git://github.com/skorfmann/spin.git"
+  gem "instantspin", :git => "git://github.com/skorfmann/instantspin.git"
 end
 
 ```
