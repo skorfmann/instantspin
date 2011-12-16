@@ -1,24 +1,50 @@
-Spin
+InstantSpin
 ====
 
-Spin speeds up your Rails testing workflow.
+Combined ([spin](https://github.com/thedarkone/rails-dev-boost)) with ([rails-dev-boost](https://github.com/thedarkone/rails-dev-boost)) for (nearly) instant test starts. Also added ([growl](https://github.com/visionmedia/growl)) for notifications.
 
-By preloading your Rails environment in one process and then using fork(2) for each test run you don't load the same code over and over and over...
-Spin works with an autotest(ish) workflow.
+This setup works great for me with unit and functional tests (Test::Unit / MinitTest).
+
+Compare the execution times:
+
+``` bash
+# with (instant)spin
+Total execution time was 2.755599 seconds
+
+# plain (ruby -Itest ...)
+Total execution time was 20.771 seconds
+```
 
 Installation
 ===========
 
-Spin is available as a rubygem.
+Rails
+====
 
 ``` ruby
-gem i spin
+#Gemfile
+gem "instantspin", :git => "git://github.com/skorfmann/spin.git"
+```
+Add config for rails-dev-boost but only if run via spin
+
+``` ruby
+#config/environments/test.rb
+if $fastspin
+  config.cache_classes = false
+  config.soft_reload = true
+else
+  config.cache_classes = true
+end
 ```
 
-Spin is a tool for Rails 3 apps. It is compatible with the following testing libraries:
+Ensure that ActiveRecord has an active connection
 
-* any version of test/unit or MiniTest
-* RSpec 2.x
+``` ruby
+#test/test_helper.rb
+ActiveRecord::Base.connection.reconnect!()
+```
+
+Done.
 
 Usage
 =====
