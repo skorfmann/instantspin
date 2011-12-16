@@ -5,7 +5,7 @@ Combined ([spin](https://github.com/thedarkone/rails-dev-boost)) with ([rails-de
 
 This setup works great for me with unit and functional tests (Test::Unit / MinitTest).
 
-Compare the execution times:
+Compare the execution times (rails 3.1 and ruby 1.9.3):
 
 ``` bash
 # with (instant)spin
