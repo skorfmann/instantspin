@@ -50,6 +50,8 @@ end
 def serve(force_rspec, force_testunit, time, push_results)
   file = socket_file
 
+  $fastspin = true
+
   # We delete the tmp file for the Unix socket if it already exists. The file
   # is scoped to the `pwd`, so if it already exists then it must be from an
   # old run of `spin serve` and can be cleaned up.
@@ -74,10 +76,11 @@ def serve(force_rspec, force_testunit, time, push_results)
       # But you can't initialize the application because any non-trivial app will
       # involve it's models/controllers, etc. in its initialization, which you
       # definitely don't want to preload.
-      require File.expand_path 'config/application'
+      require File.expand_path 'config/environment'
 
       # Determine the test framework to use using the passed-in 'force' options
       # or else default to checking for defined constants.
+
       test_framework = determine_test_framework(force_rspec, force_testunit)
 
       # Preload RSpec to save some time on each test run
@@ -95,7 +98,7 @@ def serve(force_rspec, force_testunit, time, push_results)
 
   puts "Pushing test results back to push processes" if push_results
 
-  loop do
+  loop do    
 
     # If we're not going to push the results,
     # Trap SIGQUIT (Ctrl+\) and re-run the last files that were
@@ -105,6 +108,7 @@ def serve(force_rspec, force_testunit, time, push_results)
         fork_and_run(@last_files_ran, push_results, test_framework, nil)
         # See WAIT below
         Process.wait
+        notify(@last_files_ran)
       end
     end
 
@@ -130,6 +134,8 @@ def serve(force_rspec, force_testunit, time, push_results)
     # that destroys the idea of being simple to use. So we wait(2) until the
     # child process has finished running the test.
     Process.wait
+    notify(files)
+
 
     # If we are tracking time we will output it here after everything has
     # finished running
@@ -145,10 +151,23 @@ def serve(force_rspec, force_testunit, time, push_results)
   end
 end
 
+def notify(files)
+  @app_name ||= Rails.application.class.to_s.split("::").first
+  case $?
+  when 0
+    Growl.notify_ok "Awesome, Dude! :)", :title => "#{@app_name} Test Success"
+  else
+    Growl.notify_error "#{files.join('\n')}", :title => "#{@app_name} Test Error"
+  end
+end
+
 def fork_and_run(files, push_results, test_framework, conn)
   # We fork(2) before loading the file so that our pristine preloaded
   # environment is untouched. The child process will load whatever code it
   # needs to, then it exits and we're back to the baseline preloaded app.
+  
+  ActiveSupport::Dependencies.unload_modified_files!
+
   fork do
     # To push the test results to the push process instead of having them
     # displayed by the server, we reopen $stdout/$stderr to the open
@@ -158,7 +177,6 @@ def fork_and_run(files, push_results, test_framework, conn)
       $stderr.reopen(conn)
     end
 
-    puts
     puts "Loading #{files.inspect}"
 
     # Unfortunately rspec's interface isn't as simple as just requiring the
