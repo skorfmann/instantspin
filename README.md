@@ -29,7 +29,14 @@ Rails
 
 ``` ruby
 #Gemfile
-gem "instantspin", :require => "spin", :git => "git://github.com/skorfmann/spin.git"
+group :development, :test do
+  gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git', :require => 'rails_development_boost'
+end
+
+group :development do
+  gem "instantspin", :git => "git://github.com/skorfmann/spin.git"
+end
+
 ```
 Add config for rails-dev-boost but only if run via spin
 
@@ -58,25 +65,25 @@ Usage
 There are two components to Spin, a server and client. The server has to be running for anything interesting to happen. You can start the Spin server from your `Rails.root` with the following command:
 
 ``` bash
-spin serve
+bundle exec instantspin serve
 ```
 
 As soon as the server is running it will be ready to accept from clients. You can use the following command to specify a file for the server to load:
 
 ``` bash
-spin push test/unit/product_test.rb
+bundle exec instantspin push test/unit/product_test.rb
 ```
 
 Or push multiple files to be loaded at once:
 
 ``` bash
-spin push test/unit/product_test.rb test/unit/shop_test.rb test/unit/cart_test.rb
+bundle exec instantspin push test/unit/product_test.rb test/unit/shop_test.rb test/unit/cart_test.rb
 ```
 
 If you experience issues with `test_helper.rb` not being available you may need to add your test directory to the load path using the `-I` option:
 
 ``` bash
-spin serve -Itest
+bundle exec instantspin serve -Itest
 ```
 
 Send a SIGQUIT to spin serve (`Ctrl+\`) if you want to re-run the last files that were ran via `spin push [files]`.
@@ -88,7 +95,7 @@ As mentioned, this tool works best with an autotest(ish) workflow. I haven't act
 1. Start up the spin server
 
     ``` bash
-    spin serve
+    bundle exec instantspin serve
     ```
 
 2. Start up `kicker` using the custom binary option (and any other options you want)
@@ -102,7 +109,7 @@ As mentioned, this tool works best with an autotest(ish) workflow. I haven't act
 Motivation
 ==========
 
-Easy and fast test startup times!!!
+Easy solution for really fast test startup times!!!
 
 Hacking
 =======
